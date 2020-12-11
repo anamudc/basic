@@ -3,6 +3,8 @@ package com.angie.basic.repositories;
 import com.angie.basic.domain.Employee;
 import com.angie.basic.domain.InvalidEmployeeException;
 import com.angie.basic.domain.NotFoundEmployeeException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +24,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public Employee create(Employee employee) throws InvalidEmployeeException {
         try {
             return toDomain(jpaEmployeeRepository.save(toEntity(employee)));
-        }catch (IllegalArgumentException e) {
+        }catch (Exception e) {
             throw new InvalidEmployeeException();
         }
     }
@@ -31,7 +33,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public Employee update(Employee employee) throws InvalidEmployeeException {
         try {
             return toDomain(jpaEmployeeRepository.save(toEntity(employee)));
-        }catch (IllegalArgumentException e) {
+        }catch (Exception e) {
             throw new InvalidEmployeeException();
         }
     }

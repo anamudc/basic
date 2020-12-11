@@ -20,7 +20,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee create(Employee employee) throws InvalidEmployeeException {
-        return employeeRepository.create(employee);
+        try {
+            return employeeRepository.create(employee);
+        } catch (Exception e) {
+            throw new InvalidEmployeeException();
+        }
     }
 
     @Override

@@ -46,7 +46,11 @@ public class EmployeeController {
 
     @ExceptionHandler ({Exception.class})
     public ResponseEntity<String> handlerError(Exception e){
-        return new ResponseEntity<String>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        if (NotFoundEmployeeException.class.equals(e.getClass())
+                || InvalidEmployeeException.class.equals(e.getClass())){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private EmployeeRequest toRequest(Employee employee) {
